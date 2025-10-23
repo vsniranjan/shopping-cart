@@ -5,7 +5,7 @@ import { useCart } from "../context/CartContext";
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
 
-  const { cart } = useCart();
+  const { cart, removeFromCart, clearCart } = useCart();
   const itemCount = cart.reduce((acc, item) => acc + item.qty, 0);
 
   const totalPrice = cart
@@ -48,6 +48,13 @@ const Header = () => {
                             {item.qty} x {item.price}
                           </p>
                         </div>
+
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          className='text-sm text-red-500 hover:underline cursor-pointer'
+                        >
+                          Remove
+                        </button>
                       </li>
                     ))}
                   </ul>
@@ -56,6 +63,13 @@ const Header = () => {
                     <span>Total: </span>
                     <span>${totalPrice}</span>
                   </div>
+
+                  <button
+                    onClick={clearCart}
+                    className='mt-3 w-full bg-red-500 text-white py-1 rounded transition hover:bg-red-600 cursor-pointer'
+                  >
+                    Empty Cart
+                  </button>
                 </>
               )}
             </div>

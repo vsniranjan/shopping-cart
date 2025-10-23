@@ -10,6 +10,8 @@ interface CartProviderProps {
 interface CartContextType {
   cart: CartItem[];
   addToCart: (product: Product) => void;
+  removeFromCart: (id: string) => void;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -29,8 +31,18 @@ export function CartProvider({ children }: CartProviderProps) {
     });
   };
 
+  const removeFromCart = (id: string) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, removeFromCart, clearCart }}
+    >
       {children}
     </CartContext.Provider>
   );
